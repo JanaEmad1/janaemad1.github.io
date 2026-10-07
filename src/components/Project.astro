@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+import { ui, path, type Lang } from '../i18n/ui';
+import { site, contactUrl, onMostaql } from '../site.config';
+
+interface Props { lang: Lang; entry: CollectionEntry<'projects'> }
+const { lang, entry } = Astro.props;
+const p = entry.data;
+const t = ui[lang];
+const alternate = path(lang === 'ar' ? 'en' : 'ar', `/projects/${entry.id}/`);
+---
+<Base lang={lang} title={`${p.title[lang]} | ${site.brand[lang]}`} description={p.tagline[lang]} alternate={alternate}>
+  <Header lang={lang} alternate={alternate} />
+  <main id="main" class="container page">
+    <a class="back" href={`${path(lang, '/')}#work`}><Icon name="arrow" class="back-ico" />{t.project.back}</a>
+    <header class={`intro tone-${p.tone}`}>
+      <span class="kind">{p.kind === 'demo' ? t.work.demo : t.work.ai}</span>
+      <h1>{p.title[lang]}</h1>
+      <p>{p.tagline[lang]}</p>
+      <div class="actions">
+        {p.liveUrl && <a class="btn btn-primary" href={p.liveUrl}>{t.project.live}<Icon name="external" /></a>}
+        {p.repoUrl && <a class="btn btn-ghost" href={p.repoUrl} rel="noopener" target="_blank"><Icon name="github" />{t.project.repo}</a>}
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="glass block"><h2>{t.project.problem}</h2><p>{p.problem[lang]}</p></section>
+      <section class="glass block"><h2>{t.project.solution}</h2><p>{p.solution[lang]}</p></section>
+      <section class="glass block wide">
+        <h2>{t.project.results}</h2>
+        <ul class="results">{p.results.map((r) => <li><Icon name="check" />{r[lang]}</li>)}</ul>
+        <h2 class="stack-h">{t.project.stack}</h2>
+        <ul class="stack">{p.stack.map((s) => <li dir="ltr">{s}</li>)}</ul>
+      </section>
+    </div>
+
+    <div class="cta glass">
+      <h2>{t.project.want}</h2>
+      <a class="btn btn-primary" href={contactUrl} rel="noopener" target="_blank">{onMostaql ? t.final.cta : t.final.ctaAlt}</a>
+    </div>
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  .page { padding-block: 40px 80px; }
+  .back { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); text-decoration: none; font-size: 0.9rem; }
+  .back :global(.back-ico) { width: 18px; height: 18px; transform: scaleX(-1); }
+  :global([dir='rtl']) .back :global(.back-ico) { transform: none; }
+  .intro { margin-top: 20px; padding: clamp(28px, 6vw, 56px); border-radius: var(--radius); border: 1px solid var(--line); background: var(--card); }
+  .intro.tone-teal { background: #0b2b25; color: #e6f5ef; }
+  .intro.tone-coffee { background: #2a1d12; color: #f6ead8; }
+  .kind { font-size: 0.8rem; opacity: 0.8; }
+  h1 { font-size: clamp(2rem, 6vw, 3.4rem); margin: 8px 0 10px; }
+  .intro p { opacity: 0.85; max-width: 560px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .block { padding: 26px; }
+  .wide { grid-column: 1 / -1; }
+  .block h2 { font-size: 1.1rem; margin-bottom: 10px; color: var(--accent-text); }
+  .block p { color: var(--muted); }
+  .results { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .results li { display: flex; gap: 10px; font-size: 1.05rem; font-weight: 600; }
+  .results :global(svg) { width: 20px; height: 20px; flex: none; margin-top: 5px; color: var(--accent-text); }
+  .stack-h { margin-top: 22px; }
+  .stack { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack li { padding: 4px 12px; border-radius: 99px; border: 1px solid var(--line); font-size: 0.82rem; color: var(--muted); }
+  .cta { margin-top: 14px; padding: 32px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+  .cta h2 { font-size: 1.3rem; }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+</style>

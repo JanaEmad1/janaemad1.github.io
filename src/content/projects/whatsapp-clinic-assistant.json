@@ -1,0 +1,12 @@
+{
+  "order": 3, "kind": "ai", "tone": "neutral", "repoUrl": "https://github.com/JanaEmad1/whatsapp-clinic-assistant",
+  "title": { "ar": "مساعد واتساب للعيادات", "en": "WhatsApp Clinic Assistant" },
+  "tagline": { "ar": "موظف استقبال ذكي باللهجة الخليجية", "en": "An AI receptionist that speaks Gulf Arabic" },
+  "problem": { "ar": "الاستقبال ما يلحق على الرسائل، خصوصاً بعد الدوام.", "en": "Reception can't keep up with messages, especially after hours." },
+  "solution": { "ar": "مساعد يجاوب فقط من معلومات العيادة، يحجز المواعيد ويحوّل للموظف عند الحاجة.", "en": "An assistant that answers only from the clinic's own information, books appointments and hands off to staff." },
+  "results": [
+    { "ar": "٩٨.٥٪ من الرسائل توجّهت صح", "en": "98.5% of messages routed correctly" },
+    { "ar": "صفر إجابات خاطئة في التقييم", "en": "Zero wrong answers in evaluation" }
+  ],
+  "stack": ["RAG", "Arabic NLP", "FastAPI", "WhatsApp API"]
+}

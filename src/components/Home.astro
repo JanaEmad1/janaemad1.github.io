@@ -1,0 +1,280 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Icon from './Icon.astro';
+import { ui, path, type Lang } from '../i18n/ui';
+import { site, contactUrl, onMostaql } from '../site.config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const alternate = lang === 'ar' ? '/en/' : '/';
+
+// Items show in the order of their id ("1-...", "2-...") so editors control order from the JSON files.
+const byId = <T extends { id: string }>(list: T[]) => list.sort((a, b) => a.id.localeCompare(b.id, 'en', { numeric: true }));
+const services = byId(await getCollection('services'));
+const packages = byId(await getCollection('packages'));
+const steps = byId(await getCollection('process'));
+const faq = byId(await getCollection('faq'));
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: site.name[lang],
+  url: new URL(path(lang, '/'), site.url).href,
+  description: t.meta.description,
+  areaServed: ['KW', 'SA', 'AE', 'QA', 'BH', 'OM'],
+  availableLanguage: ['ar', 'en'],
+  founder: { '@type': 'Person', name: site.name.en, sameAs: [site.githubUrl] },
+};
+---
+<Base lang={lang} title={t.meta.title} description={t.meta.description} alternate={alternate} jsonLd={jsonLd}>
+  <Header lang={lang} alternate={alternate} />
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="pill"><span class="dot" aria-hidden="true"></span>{t.hero.badge}</span>
+          <h1>{t.hero.title1}<br /><span class="accent">{t.hero.title2}</span></h1>
+          <p class="lead">{t.hero.lead}</p>
+          <div class="actions">
+            <a class="btn btn-primary" href={contactUrl} rel="noopener" target="_blank">{onMostaql ? t.hero.primary : t.hero.primaryAlt}<Icon name="arrow" class="flip-rtl" /></a>
+            <a class="btn btn-ghost" href="#work">{t.hero.secondary}</a>
+          </div>
+        </div>
+        <div class="chat glass" role="img" aria-label={`${t.chat.label}: ${t.chat.q} — ${t.chat.a}`}>
+          <div class="chat-head"><Icon name="whatsapp" /><span>{t.chat.label}</span><span class="live" aria-hidden="true"></span></div>
+          <p class="msg in-msg">{t.chat.q}</p>
+          <p class="msg out-msg">{t.chat.a}</p>
+          <p class="msg in-msg short">{t.chat.q2}</p>
+          <div class="typing" aria-hidden="true"><span></span><span></span><span></span></div>
+        </div>
+      </div>
+      <ul class="container stats">
+        {t.stats.map((s) => (
+          <li class="glass"><strong dir="ltr">{s.value}</strong><span>{s.label}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>{t.services.title}</h2>
+          <p>{t.services.lead}</p>
+        </div>
+        <ul class="services">
+          {services.map((s) => (
+            <li class="glass service reveal">
+              <span class="ico"><Icon name={s.data.icon as any} /></span>
+              <h3>{s.data.title[lang]}</h3>
+              <p>{s.data.text[lang]}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Work -->
+    <section id="work" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>{t.work.title}</h2>
+          <p>{t.work.lead}</p>
+        </div>
+        <ul class="work">
+          {projects.map((p) => (
+            <li class={`project tone-${p.data.tone} reveal`}>
+              <a href={path(lang, `/projects/${p.id}/`)}>
+                <span class="kind">{p.data.kind === 'demo' ? t.work.demo : t.work.ai}</span>
+                <h3>{p.data.title[lang]}</h3>
+                <p>{p.data.tagline[lang]}</p>
+                <span class="result">{p.data.results[0][lang]}</span>
+                <span class="more">{t.work.open}<Icon name="arrow" class="flip-rtl" /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Packages (no prices on purpose: quotes happen on Mostaql) -->
+    <section id="packages" class="section">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>{t.packages.title}</h2>
+          <p>{t.packages.lead}</p>
+        </div>
+        <ul class="packages">
+          {packages.map((p) => (
+            <li class:list={['glass', 'package', 'reveal', { featured: p.data.featured }]}>
+              {p.data.featured && <span class="pill">{t.packages.popular}</span>}
+              <h3>{p.data.name[lang]}</h3>
+              <ul>
+                {p.data.features.map((f) => <li><Icon name="check" />{f[lang]}</li>)}
+              </ul>
+              <a class:list={['btn', p.data.featured ? 'btn-primary' : 'btn-ghost']} href={contactUrl} rel="noopener" target="_blank">
+                {t.packages.cta}<span class="sr-only"> — {p.data.name[lang]}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head reveal"><h2>{t.process.title}</h2></div>
+        <ol class="steps">
+          {steps.map((s, i) => (
+            <li class="reveal">
+              <span class="num" aria-hidden="true">{lang === 'ar' ? (i + 1).toLocaleString('ar-EG') : `0${i + 1}`}</span>
+              <h3>{s.data.title[lang]}</h3>
+              <p>{s.data.text[lang]}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container narrow">
+        <div class="section-head reveal"><h2>{t.faq.title}</h2></div>
+        <div class="faq">
+          {faq.map((f) => (
+            <details class="glass reveal">
+              <summary>{f.data.q[lang]}<Icon name="plus" /></summary>
+              <p>{f.data.a[lang]}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section final">
+      <div class="container">
+        <div class="final-card glass reveal">
+          <h2>{t.final.title}</h2>
+          <p>{t.final.lead}</p>
+          <a class="btn btn-primary" href={contactUrl} rel="noopener" target="_blank">{onMostaql ? t.final.cta : t.final.ctaAlt}<Icon name="arrow" class="flip-rtl" /></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer lang={lang} />
+</Base>
+
+<style>
+  :global([dir='rtl']) :global(.flip-rtl) { transform: scaleX(-1); }
+
+  .hero { position: relative; overflow: hidden; padding-block: clamp(56px, 9vw, 110px) 48px; }
+  .glow {
+    position: absolute; inset-inline-end: -10%; top: -20%; width: 70vw; height: 70vw; max-width: 820px; max-height: 820px;
+    background: radial-gradient(circle, var(--glow), transparent 62%); pointer-events: none;
+  }
+  .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-text); }
+  h1 { font-size: clamp(2.4rem, 7vw, 4.6rem); margin: 22px 0 18px; }
+  .lead { color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.15rem); max-width: 540px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+  .chat { padding: 20px; display: grid; gap: 10px; }
+  .chat-head { display: flex; align-items: center; gap: 8px; color: var(--accent-text); font-size: 0.85rem; margin-bottom: 4px; }
+  .chat-head :global(svg) { width: 20px; height: 20px; }
+  .live { width: 8px; height: 8px; border-radius: 50%; background: #3fb97a; margin-inline-start: auto; box-shadow: 0 0 0 4px rgb(63 185 122 / 0.18); }
+  .msg { padding: 10px 14px; border-radius: 16px; max-width: 86%; font-size: 0.92rem; line-height: 1.7; }
+  .in-msg { background: var(--card); justify-self: start; border-end-start-radius: 4px; }
+  .out-msg { background: var(--accent); color: var(--on-accent); justify-self: end; border-end-end-radius: 4px; }
+  .short { max-width: 40%; }
+  .typing { display: flex; gap: 4px; justify-self: end; padding: 10px 14px; background: color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 16px; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-text); animation: blink 1.2s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+
+  .stats { position: relative; list-style: none; padding: 0; margin-top: 56px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .stats li { padding: 18px 20px; display: grid; }
+  .stats strong { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 800; }
+  .stats span { color: var(--muted); font-size: 0.85rem; }
+
+  .services { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .service { padding: 24px; transition: border-color 0.3s, transform 0.3s; }
+  .service:hover { border-color: rgb(113 133 115 / 0.6); transform: translateY(-4px); }
+  .ico { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgb(113 133 115 / 0.16); color: var(--accent-text); margin-bottom: 16px; }
+  .service h3 { font-size: 1.1rem; margin-bottom: 8px; }
+  .service p { color: var(--muted); font-size: 0.92rem; }
+
+  .work { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .project a { display: grid; gap: 8px; height: 100%; padding: 28px; border-radius: var(--radius); text-decoration: none; border: 1px solid var(--line); transition: transform 0.3s; }
+  .project a:hover { transform: translateY(-4px); }
+  .project:first-child { grid-row: span 2; }
+  .project:first-child a { min-height: 340px; align-content: end; }
+  .tone-teal a { background: #0b2b25; color: #e6f5ef; border-color: transparent; }
+  .tone-coffee a { background: #2a1d12; color: #f6ead8; border-color: transparent; }
+  .tone-neutral a { background: var(--card); }
+  .kind { font-size: 0.78rem; opacity: 0.8; }
+  .project h3 { font-size: 1.45rem; }
+  .project p { opacity: 0.85; }
+  .result { font-size: 0.85rem; color: #9fe1cb; }
+  .tone-coffee .result { color: #e7b764; }
+  .tone-neutral .result { color: var(--accent-text); }
+  .more { display: inline-flex; gap: 6px; align-items: center; font-size: 0.85rem; font-weight: 600; margin-top: 8px; }
+  .more :global(svg) { width: 16px; height: 16px; }
+
+  .packages { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+  .package { padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+  .package.featured { border: 1.5px solid var(--accent); background: rgb(113 133 115 / 0.1); }
+  .package .pill { align-self: flex-start; }
+  .package h3 { font-size: 1.5rem; }
+  .package ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; flex: 1; }
+  .package li { display: flex; gap: 10px; align-items: flex-start; color: var(--muted); font-size: 0.93rem; }
+  .package li :global(svg) { width: 18px; height: 18px; flex: none; margin-top: 4px; color: var(--accent-text); }
+  .package .btn { justify-content: center; }
+
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+  .steps li { border-top: 1px solid var(--line); padding-top: 20px; }
+  .num { display: block; font-size: 2.2rem; font-weight: 800; color: var(--accent-text); line-height: 1; margin-bottom: 14px; }
+  .steps h3 { font-size: 1.15rem; margin-bottom: 6px; }
+  .steps p { color: var(--muted); font-size: 0.92rem; }
+
+  .narrow { max-width: 820px; }
+  .faq { display: grid; gap: 10px; }
+  details { padding: 0; }
+  summary { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 22px; cursor: pointer; font-weight: 600; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(svg) { width: 20px; height: 20px; flex: none; transition: transform 0.3s; color: var(--accent-text); }
+  details[open] summary :global(svg) { transform: rotate(45deg); }
+  details p { padding: 0 22px 20px; color: var(--muted); }
+
+  .final-card { text-align: center; padding: clamp(36px, 6vw, 64px) 24px; display: grid; justify-items: center; gap: 14px; background: radial-gradient(circle at 50% 0%, var(--glow), transparent 70%), var(--glass); }
+  .final-card h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); }
+  .final-card p { color: var(--muted); margin-bottom: 10px; }
+
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+    .packages { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .work { grid-template-columns: 1fr; }
+    .project:first-child { grid-row: auto; }
+    .project:first-child a { min-height: 240px; }
+    .stats { grid-template-columns: 1fr 1fr; }
+    .stats li:last-child { grid-column: span 2; }
+    .steps { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .typing span { animation: none; opacity: 0.6; }
+    .service, .project a { transition: none; }
+    .service:hover, .project a:hover { transform: none; }
+  }
+</style>

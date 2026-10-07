@@ -1,0 +1,499 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import DemoRibbon from '../../../components/DemoRibbon.astro';
+
+// Demo content for a fictional clinic. Swap these arrays to reuse the page for a real client.
+const services = [
+  { name: 'تنظيف وتلميع', text: 'جلسة تنظيف كاملة وإزالة الجير والتصبغات.', time: '٤٥ دقيقة' },
+  { name: 'تقويم شفاف', text: 'تقويم غير مرئي بخطة علاج رقمية تشوف نتيجتها من أول زيارة.', time: 'استشارة ٣٠ دقيقة' },
+  { name: 'زراعة الأسنان', text: 'زراعة بأحدث التقنيات مع متابعة بعد العملية.', time: 'استشارة ٤٥ دقيقة' },
+  { name: 'ابتسامة هوليود', text: 'عدسات وفينير بتصميم ابتسامة يناسب ملامحك.', time: 'استشارة ٤٥ دقيقة' },
+  { name: 'علاج العصب', text: 'علاج بدون ألم بالتخدير الموضعي والأجهزة الحديثة.', time: '٦٠ دقيقة' },
+  { name: 'أسنان الأطفال', text: 'زيارة مريحة للصغار في غرفة مخصصة لهم.', time: '٣٠ دقيقة' },
+];
+const doctors = [
+  { name: 'د. سارة العتيبي', role: 'تقويم الأسنان', years: '١٢ سنة خبرة', initials: 'س' },
+  { name: 'د. فهد الرشيدي', role: 'زراعة وجراحة الفم', years: '١٥ سنة خبرة', initials: 'ف' },
+  { name: 'د. نورة الكندري', role: 'تجميل الأسنان', years: '٩ سنوات خبرة', initials: 'ن' },
+];
+const reviews = [
+  { name: 'أم عبدالله', text: 'حجزت من الموقع الساعة ١١ بالليل والمساعد رد علي على طول. الدكتورة سارة قمة بالتعامل.' },
+  { name: 'محمد', text: 'أول مرة ما أخاف من علاج العصب. المكان نظيف والمواعيد مضبوطة.' },
+  { name: 'ريم', text: 'سويت ابتسامة هوليود والنتيجة طبيعية جداً. أنصح فيهم.' },
+];
+const slots = ['٤:٠٠', '٤:٣٠', '٥:٣٠', '٦:٠٠', '٧:٣٠', '٨:٠٠'];
+---
+<Base
+  lang="ar"
+  title="عيادة ابتسامة لطب الأسنان | السالمية (ديمو)"
+  description="ديمو موقع عيادة أسنان في الكويت: خدمات، أطباء، حجز موعد أونلاين ومساعد ذكي يرد ٢٤ ساعة."
+  theme="fixed"
+  themeColor="#071a17"
+>
+  <div class="clinic">
+    <DemoRibbon tone="teal" />
+    <a class="skip" href="#main">تخطَّ إلى المحتوى</a>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="logo" href="#main"><Icon name="tooth" />ابتسامة</a>
+        <nav aria-label="الرئيسية">
+          <a href="#services">الخدمات</a><a href="#doctors">الأطباء</a><a href="#reviews">آراء المراجعين</a><a href="#visit">الموقع</a>
+        </nav>
+        <a class="btn solid" href="#book">احجز موعدك</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="wrap hero-grid">
+          <div>
+            <p class="tag"><Icon name="star" /> ٤.٩ من ٦٠٠+ تقييم على جوجل</p>
+            <h1>ابتسامتك<br /><span>تبدأ من هني.</span></h1>
+            <p class="lead">عيادة أسنان متكاملة في السالمية. احجز موعدك في أقل من ٣٠ ثانية، أو اسأل مساعدنا الذكي أي وقت.</p>
+            <div class="actions">
+              <a class="btn solid" href="#book"><Icon name="calendar" />احجز موعدك</a>
+              <button class="btn ghost" type="button" data-open-chat><Icon name="bot" />اسأل المساعد</button>
+            </div>
+            <ul class="facts">
+              <li><Icon name="clock" />يومياً ٩ص – ١٠م</li>
+              <li><Icon name="pin" />السالمية، شارع سالم المبارك</li>
+            </ul>
+          </div>
+          <div class="hero-card" aria-hidden="true">
+            <div class="ring"><Icon name="tooth" /></div>
+            <p class="big">+١٢,٠٠٠</p>
+            <p>مراجع سعيد منذ ٢٠١٥</p>
+            <div class="mini">
+              <span><strong>٣</strong> أطباء استشاريين</span>
+              <span><strong>٦</strong> تخصصات</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" class="sec">
+        <div class="wrap">
+          <h2>خدماتنا</h2>
+          <p class="sub">كل اللي تحتاجه لابتسامة صحية، تحت سقف واحد.</p>
+          <ul class="services">
+            {services.map((s) => (
+              <li class="card reveal">
+                <span class="ico"><Icon name="tooth" /></span>
+                <h3>{s.name}</h3>
+                <p>{s.text}</p>
+                <span class="time"><Icon name="clock" />{s.time}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section id="doctors" class="sec">
+        <div class="wrap">
+          <h2>أطباؤنا</h2>
+          <p class="sub">فريق استشاري بخبرة طويلة في الكويت والخارج.</p>
+          <ul class="doctors">
+            {doctors.map((d) => (
+              <li class="card reveal">
+                <span class="avatar" aria-hidden="true">{d.initials}</span>
+                <h3>{d.name}</h3>
+                <p>{d.role}</p>
+                <span class="time">{d.years}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section id="book" class="sec">
+        <div class="wrap book">
+          <div class="book-copy">
+            <h2>احجز موعدك</h2>
+            <p class="sub">اختر الخدمة والوقت، ونأكد معك الموعد برسالة.</p>
+            <ul class="perks">
+              <li><Icon name="check" />تأكيد خلال ساعة في أوقات الدوام</li>
+              <li><Icon name="check" />تقدر تغيّر الموعد أو تلغيه بسهولة</li>
+              <li><Icon name="check" />بدون دفع مسبق</li>
+            </ul>
+          </div>
+          <form class="card form" id="booking" novalidate>
+            <div class="field">
+              <label for="service">الخدمة</label>
+              <select id="service" name="service" required>
+                <option value="">اختر الخدمة</option>
+                {services.map((s) => <option>{s.name}</option>)}
+              </select>
+            </div>
+            <div class="field">
+              <label for="date">التاريخ</label>
+              <input id="date" name="date" type="date" required />
+            </div>
+            <fieldset class="field">
+              <legend>الوقت (مساءً)</legend>
+              <div class="slots">
+                {slots.map((t, i) => (
+                  <label class="slot"><input type="radio" name="time" value={t} required={i === 0} /><span>{t}</span></label>
+                ))}
+              </div>
+            </fieldset>
+            <div class="field">
+              <label for="name">الاسم</label>
+              <input id="name" name="name" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="phone">رقم الجوال</label>
+              <input id="phone" name="phone" type="tel" inputmode="numeric" dir="ltr" placeholder="5XXXXXXX" autocomplete="tel-national" required pattern="[569][0-9]{7}" />
+              <small>رقم كويتي من ٨ أرقام يبدأ بـ ٥ أو ٦ أو ٩</small>
+            </div>
+            <p class="error" id="form-error" role="alert"></p>
+            <button class="btn solid wide" type="submit">أكّد الحجز</button>
+            <p class="note">ديمو: البيانات ما تنرسل لأي مكان.</p>
+          </form>
+          <div class="card done" id="done" tabindex="-1" hidden>
+            <span class="ring"><Icon name="check" /></span>
+            <h3>تم استلام طلبك!</h3>
+            <p id="done-text"></p>
+            <button class="btn ghost" type="button" id="again">حجز موعد ثاني</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="reviews" class="sec">
+        <div class="wrap">
+          <h2>آراء المراجعين</h2>
+          <ul class="reviews">
+            {reviews.map((r) => (
+              <li class="card reveal">
+                <p class="stars" role="img" aria-label="٥ نجوم"><Icon name="star" /><Icon name="star" /><Icon name="star" /><Icon name="star" /><Icon name="star" /></p>
+                <blockquote>{r.text}</blockquote>
+                <p class="who">{r.name}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section id="visit" class="sec">
+        <div class="wrap visit card">
+          <div>
+            <h2>زورنا</h2>
+            <p class="sub">السالمية، شارع سالم المبارك، برج الديرة، الدور الثالث. مواقف مجانية للمراجعين.</p>
+            <dl class="hours">
+              <div><dt>السبت – الخميس</dt><dd>٩:٠٠ص – ١٠:٠٠م</dd></div>
+              <div><dt>الجمعة</dt><dd>٤:٠٠م – ١٠:٠٠م</dd></div>
+            </dl>
+          </div>
+          <div class="map" role="img" aria-label="خريطة توضيحية لموقع العيادة في السالمية">
+            <svg viewBox="0 0 320 200" aria-hidden="true">
+              <rect width="320" height="200" fill="#0b2b25" />
+              <path d="M0 140 Q90 120 160 150 T320 130" stroke="#12443a" stroke-width="18" fill="none" />
+              <path d="M70 0 L110 200 M220 0 L190 200 M0 60 L320 80" stroke="#164f43" stroke-width="8" fill="none" />
+              <path d="M0 170 Q160 200 320 175 L320 200 L0 200 Z" fill="#0f3a52" />
+              <circle cx="168" cy="92" r="26" fill="#5dcaa5" opacity="0.18" />
+              <circle cx="168" cy="92" r="9" fill="#5dcaa5" />
+            </svg>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap">© عيادة ابتسامة لطب الأسنان · نشاط وهمي للعرض</div>
+    </footer>
+
+    <!-- AI assistant: scripted demo of what the real WhatsApp/website assistant does -->
+    <button class="fab" type="button" data-open-chat aria-haspopup="dialog" aria-controls="chat" aria-label="اسأل المساعد">
+      <Icon name="bot" /><span>اسأل المساعد</span>
+    </button>
+    <div class="chat" id="chat" role="dialog" aria-modal="false" aria-labelledby="chat-title" hidden>
+      <div class="chat-head">
+        <span class="avatar small" aria-hidden="true"><Icon name="bot" /></span>
+        <div>
+          <p id="chat-title">مساعد ابتسامة</p>
+          <p class="online">متصل الآن · يرد خلال ثواني</p>
+        </div>
+        <button class="x" type="button" data-close-chat aria-label="إغلاق المحادثة"><Icon name="x" /></button>
+      </div>
+      <div class="log" id="log" role="log" aria-live="polite"></div>
+      <div class="quick" id="quick">
+        <button type="button">أبي أحجز موعد</button>
+        <button type="button">كم سعر التنظيف؟</button>
+        <button type="button">وين مكانكم؟</button>
+        <button type="button">متى الدوام؟</button>
+      </div>
+      <form class="compose" id="compose">
+        <label class="sr-only" for="msg">اكتب رسالتك</label>
+        <input id="msg" autocomplete="off" placeholder="اكتب سؤالك..." />
+        <button type="submit" aria-label="إرسال"><Icon name="send" /></button>
+      </form>
+    </div>
+  </div>
+</Base>
+
+<script>
+  // ---------- Booking form (client-side only; nothing is sent anywhere) ----------
+  const form = document.getElementById('booking') as HTMLFormElement;
+  const done = document.getElementById('done') as HTMLElement;
+  const err = document.getElementById('form-error') as HTMLElement;
+  const date = document.getElementById('date') as HTMLInputElement;
+  const today = new Date();
+  const iso = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  date.min = iso(today);
+  const max = new Date(today); max.setDate(max.getDate() + 60); date.max = iso(max);
+
+  const messages: Record<string, string> = {
+    service: 'اختر الخدمة',
+    date: 'اختر تاريخ الموعد',
+    time: 'اختر وقت الموعد',
+    name: 'اكتب اسمك',
+    phone: 'اكتب رقم جوال كويتي صحيح من ٨ أرقام',
+  };
+  form.addEventListener('input', () => { err.textContent = ''; form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid')); });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    for (const key of ['service', 'date', 'time', 'name', 'phone']) {
+      const el = form.elements.namedItem(key) as HTMLInputElement | RadioNodeList | null;
+      const value = String(data.get(key) ?? '').trim();
+      const field = el instanceof RadioNodeList ? (el[0] as HTMLInputElement) : el;
+      const invalid = !value || (field instanceof HTMLInputElement && !field.checkValidity());
+      if (invalid) {
+        err.textContent = messages[key];
+        field?.setAttribute('aria-invalid', 'true');
+        field?.focus();
+        return;
+      }
+    }
+    const day = new Date(String(data.get('date')) + 'T00:00').toLocaleDateString('ar-KW', { weekday: 'long', day: 'numeric', month: 'long' });
+    (document.getElementById('done-text') as HTMLElement).textContent =
+      `${data.get('name')}، طلبك لـ «${data.get('service')}» يوم ${day} الساعة ${data.get('time')} مساءً وصلنا. بنرسل لك تأكيد على جوالك. (ديمو)`;
+    form.hidden = true;
+    done.hidden = false;
+    done.focus();
+  });
+  document.getElementById('again')?.addEventListener('click', () => {
+    form.reset();
+    done.hidden = true;
+    form.hidden = false;
+    (form.elements.namedItem('service') as HTMLElement).focus();
+  });
+
+  // ---------- Scripted assistant (stands in for the real AI in this demo) ----------
+  const chat = document.getElementById('chat') as HTMLElement;
+  const log = document.getElementById('log') as HTMLElement;
+  const input = document.getElementById('msg') as HTMLInputElement;
+  const fab = document.querySelector('.fab') as HTMLElement;
+  let opener: HTMLElement | null = null;
+
+  const answers: { keys: string[]; reply: string }[] = [
+    { keys: ['احجز', 'موعد', 'مواعيد', 'حجز', 'ابي اجي'], reply: 'أكيد! تقدر تحجز من نموذج الحجز تحت، أو قول لي الخدمة واليوم اللي يناسبك وأشوف لك المواعيد المتاحة. عندنا باچر ٤:٣٠ و ٦:٠٠ مساءً.' },
+    { keys: ['سعر', 'كم', 'بكم', 'تكلفة', 'اسعار'], reply: 'التنظيف والتلميع بـ ٢٥ د.ك، والاستشارة الأولى للتقويم والزراعة مجانية. الأسعار النهائية يحددها الطبيب بعد الفحص.' },
+    { keys: ['وين', 'مكان', 'موقع', 'عنوان', 'لوكيشن'], reply: 'العيادة في السالمية، شارع سالم المبارك، برج الديرة الدور الثالث. وعندنا مواقف مجانية للمراجعين.' },
+    { keys: ['دوام', 'متى', 'تفتحون', 'ساعات', 'جمعة'], reply: 'نفتح من السبت للخميس ٩ الصبح لين ١٠ بالليل، ويوم الجمعة من ٤ العصر لين ١٠.' },
+    { keys: ['تقويم', 'شفاف'], reply: 'التقويم الشفاف مع د. سارة العتيبي. الاستشارة الأولى مجانية وتطلع منها بخطة علاج رقمية وتشوف شكل أسنانك بعد التقويم.' },
+    { keys: ['الم', 'يعور', 'خايف', 'عصب'], reply: 'لا تشيل هم، نستخدم تخدير موضعي وأجهزة حديثة وأغلب مراجعينا يقولون ما حسوا بشي. تبي أحجز لك استشارة؟' },
+    { keys: ['اطفال', 'ولدي', 'بنتي', 'طفل'], reply: 'عندنا غرفة مخصصة للأطفال ونستقبلهم من عمر ٣ سنوات. أنسب وقت لهم العصر بعد المدرسة.' },
+    { keys: ['تأمين', 'تامين'], reply: 'نتعامل مع أغلب شركات التأمين في الكويت. أرسل لي اسم شركتك وأتأكد لك.' },
+    { keys: ['شكرا', 'مشكور', 'يعطيك'], reply: 'العفو! نتشرف فيك بأي وقت.' },
+    { keys: ['هلا', 'السلام', 'مرحبا', 'هاي'], reply: 'هلا والله وغلا! شلون أقدر أساعدك اليوم؟' },
+  ];
+  const fallback = 'سؤال حلو! بحوّله لموظف الاستقبال ويرد عليك خلال دقايق. (في النسخة الحقيقية المساعد ما يخمّن، يحوّل للموظف)';
+  // Normalise Arabic so "أبي/ابي" and "ة/ه" match the same keyword.
+  const norm = (s: string) => s.replace(/[أإآ]/g, 'ا').replace(/ة/g, 'ه').replace(/ى/g, 'ي').replace(/[ً-ْ]/g, '');
+
+  function add(text: string, who: 'me' | 'bot') {
+    const p = document.createElement('p');
+    p.className = `bubble ${who}`;
+    p.textContent = text;
+    log.append(p);
+    log.scrollTop = log.scrollHeight;
+  }
+  // Whole-word match (so "كم" doesn't fire inside "عندكم"), allowing common prefixes like ال / و / بال.
+  function matches(text: string, key: string) {
+    const k = norm(key);
+    if (k.includes(' ')) return text.includes(k);
+    const words = text.split(/[^\p{L}\p{N}]+/u);
+    return words.some((w) => w === k || ['ال', 'و', 'وال', 'بال', 'ب'].some((p) => w === p + k) || (k.length >= 4 && w.startsWith(k)));
+  }
+  function reply(q: string) {
+    const n = norm(q);
+    const hit = answers.find((a) => a.keys.some((k) => matches(n, k)));
+    const typing = document.createElement('p');
+    typing.className = 'bubble bot typing';
+    typing.setAttribute('aria-label', 'المساعد يكتب');
+    typing.innerHTML = '<span></span><span></span><span></span>';
+    log.append(typing);
+    log.scrollTop = log.scrollHeight;
+    setTimeout(() => { typing.remove(); add(hit ? hit.reply : fallback, 'bot'); }, 700);
+  }
+  function send(q: string) {
+    if (!q.trim()) return;
+    add(q.trim(), 'me');
+    reply(q);
+  }
+  function open(e?: Event) {
+    opener = (e?.currentTarget as HTMLElement) ?? null;
+    chat.hidden = false;
+    fab.hidden = true;
+    if (!log.childElementCount) add('هلا والله! أنا مساعد عيادة ابتسامة. أقدر أساعدك بالحجز والأسعار والمواعيد. شنو تحتاج؟', 'bot');
+    input.focus();
+  }
+  function close() {
+    chat.hidden = true;
+    fab.hidden = false;
+    (opener ?? fab).focus();
+  }
+  document.querySelectorAll('[data-open-chat]').forEach((b) => b.addEventListener('click', open));
+  document.querySelector('[data-close-chat]')?.addEventListener('click', close);
+  chat.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+  document.getElementById('compose')?.addEventListener('submit', (e) => { e.preventDefault(); send(input.value); input.value = ''; });
+  document.querySelectorAll('#quick button').forEach((b) => b.addEventListener('click', () => send(b.textContent ?? '')));
+</script>
+
+<style>
+  .clinic {
+    --c-bg: #071a17; --c-card: #0d2621; --c-line: rgb(159 225 203 / 0.16);
+    --c-text: #e8f4ef; --c-muted: #9cbcb1; --c-accent: #5dcaa5; --c-on: #04342c;
+    background: var(--c-bg); color: var(--c-text); min-height: 100vh;
+  }
+  .wrap { width: min(100% - 32px, 1120px); margin-inline: auto; }
+  .skip { position: absolute; inset-inline-start: 16px; top: -60px; z-index: 100; background: var(--c-accent); color: var(--c-on); padding: 8px 16px; border-radius: 99px; }
+  .skip:focus { top: 12px; }
+  .clinic :focus-visible { outline: 2px solid var(--c-accent); outline-offset: 3px; }
+
+  .top { position: sticky; top: 0; z-index: 40; background: rgb(7 26 23 / 0.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--c-line); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; }
+  .logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.3rem; text-decoration: none; }
+  .logo :global(svg) { color: var(--c-accent); width: 26px; height: 26px; }
+  nav { display: flex; gap: 26px; }
+  nav a { color: var(--c-muted); text-decoration: none; font-size: 0.92rem; }
+  nav a:hover { color: var(--c-text); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 99px; font: inherit; font-weight: 600; font-size: 0.95rem; text-decoration: none; cursor: pointer; border: 0; transition: transform 0.2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn :global(svg) { width: 18px; height: 18px; }
+  .solid { background: var(--c-accent); color: var(--c-on); }
+  .ghost { background: rgb(255 255 255 / 0.06); color: var(--c-text); border: 1px solid var(--c-line); }
+  .wide { width: 100%; }
+
+  .hero { position: relative; overflow: hidden; padding-block: clamp(48px, 9vw, 100px); }
+  .glow { position: absolute; inset-inline-start: -15%; top: -30%; width: 70vw; height: 70vw; max-width: 760px; max-height: 760px; background: radial-gradient(circle, rgb(93 202 165 / 0.22), transparent 62%); pointer-events: none; }
+  .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .tag { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--c-muted); }
+  .tag :global(svg) { width: 16px; height: 16px; color: #f2c14e; }
+  h1 { font-size: clamp(2.6rem, 8vw, 4.8rem); line-height: 1.2; margin: 14px 0 16px; font-weight: 800; }
+  h1 span { color: var(--c-accent); }
+  .lead { color: var(--c-muted); font-size: 1.08rem; max-width: 520px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+  .facts { list-style: none; padding: 0; margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 10px 24px; color: var(--c-muted); font-size: 0.9rem; }
+  .facts li { display: inline-flex; align-items: center; gap: 6px; }
+  .facts :global(svg) { width: 18px; height: 18px; color: var(--c-accent); }
+  .hero-card { background: rgb(255 255 255 / 0.04); border: 1px solid var(--c-line); border-radius: 28px; padding: 36px 28px; text-align: center; display: grid; justify-items: center; gap: 4px; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .ring { display: grid; place-items: center; width: 84px; height: 84px; border-radius: 50%; background: rgb(93 202 165 / 0.14); color: var(--c-accent); margin-bottom: 10px; box-shadow: 0 0 0 10px rgb(93 202 165 / 0.06); }
+  .ring :global(svg) { width: 40px; height: 40px; }
+  .big { font-size: 2.6rem; font-weight: 800; line-height: 1.2; }
+  .hero-card > p:not(.big) { color: var(--c-muted); }
+  .mini { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; justify-content: center; }
+  .mini span { padding: 8px 14px; border-radius: 99px; background: var(--c-card); font-size: 0.85rem; color: var(--c-muted); }
+  .mini strong { color: var(--c-text); }
+
+  .sec { padding-block: clamp(56px, 9vw, 96px); scroll-margin-top: 70px; }
+  .sec h2 { font-size: clamp(1.8rem, 4.5vw, 2.6rem); font-weight: 800; margin: 0 0 8px; }
+  .sub { color: var(--c-muted); margin: 0 0 32px; max-width: 560px; }
+  .card { background: var(--c-card); border: 1px solid var(--c-line); border-radius: 22px; padding: 24px; }
+  .services, .doctors, .reviews { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .services .card { transition: border-color 0.3s, transform 0.3s; }
+  .services .card:hover { border-color: rgb(93 202 165 / 0.5); transform: translateY(-4px); }
+  .ico { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: rgb(93 202 165 / 0.14); color: var(--c-accent); }
+  .ico :global(svg) { width: 24px; height: 24px; }
+  .card h3 { font-size: 1.15rem; margin: 14px 0 6px; font-weight: 800; }
+  .card p { margin: 0; color: var(--c-muted); font-size: 0.93rem; }
+  .time { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-size: 0.82rem; color: var(--c-accent); }
+  .time :global(svg) { width: 15px; height: 15px; }
+  .doctors .card { text-align: center; }
+  .avatar { display: inline-grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: var(--c-accent); color: var(--c-on); font-size: 1.8rem; font-weight: 800; }
+
+  .book { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 40px; align-items: start; }
+  .perks { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .perks li { display: flex; gap: 10px; align-items: center; }
+  .perks :global(svg) { width: 20px; height: 20px; color: var(--c-accent); flex: none; }
+  .form { display: grid; gap: 18px; padding: 28px; }
+  .field { display: grid; gap: 8px; border: 0; padding: 0; margin: 0; min-width: 0; }
+  label, legend { font-weight: 600; font-size: 0.92rem; padding: 0; }
+  input, select { font: inherit; color: var(--c-text); background: var(--c-bg); border: 1px solid var(--c-line); border-radius: 14px; padding: 12px 14px; width: 100%; min-height: 48px; color-scheme: dark; }
+  input:focus, select:focus { border-color: var(--c-accent); outline: none; box-shadow: 0 0 0 3px rgb(93 202 165 / 0.25); }
+  [aria-invalid='true'] { border-color: #ff8a80; }
+  small { color: var(--c-muted); font-size: 0.8rem; }
+  .slots { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .slot { position: relative; }
+  .slot input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+  .slot span { display: grid; place-items: center; min-height: 44px; border-radius: 12px; border: 1px solid var(--c-line); background: var(--c-bg); font-weight: 400; }
+  .slot input:checked + span { background: var(--c-accent); color: var(--c-on); border-color: var(--c-accent); font-weight: 600; }
+  .slot input:focus-visible + span { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+  .error { color: #ff8a80; margin: 0; min-height: 1em; font-size: 0.9rem; }
+  .error:empty { display: none; }
+  .note { margin: 0; text-align: center; font-size: 0.8rem; color: var(--c-muted); }
+  .done { display: grid; justify-items: center; text-align: center; gap: 8px; padding: 40px 28px; }
+  .done[hidden], .form[hidden] { display: none; }
+  .done h3 { font-size: 1.5rem; margin: 0; }
+  .done p { max-width: 420px; margin-bottom: 12px; }
+
+  .stars { display: flex; gap: 2px; color: #f2c14e; }
+  .stars :global(svg) { width: 18px; height: 18px; fill: currentColor; }
+  blockquote { margin: 12px 0; line-height: 1.9; }
+  .who { font-weight: 600; color: var(--c-text) !important; }
+
+  .visit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center; padding: clamp(24px, 4vw, 40px); }
+  .hours { margin: 0; display: grid; gap: 10px; }
+  .hours div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--c-line); }
+  .hours dt { color: var(--c-muted); }
+  .hours dd { margin: 0; font-weight: 600; }
+  .map { border-radius: 18px; overflow: hidden; border: 1px solid var(--c-line); }
+  .map svg { width: 100%; height: auto; }
+
+  .foot { padding-block: 28px 100px; border-top: 1px solid var(--c-line); color: var(--c-muted); font-size: 0.85rem; }
+
+  .fab { position: fixed; inset-inline-end: 18px; bottom: 18px; z-index: 60; display: inline-flex; align-items: center; gap: 8px; padding: 14px 20px; border-radius: 99px; border: 0; background: var(--c-accent); color: var(--c-on); font: inherit; font-weight: 600; cursor: pointer; box-shadow: 0 10px 30px rgb(0 0 0 / 0.4); }
+  .fab[hidden] { display: none; }
+  .fab :global(svg) { width: 22px; height: 22px; }
+  .chat { position: fixed; inset-inline-end: 18px; bottom: 18px; z-index: 70; width: min(380px, calc(100vw - 24px)); height: min(560px, calc(100dvh - 90px)); display: flex; flex-direction: column; background: #0a211d; border: 1px solid var(--c-line); border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgb(0 0 0 / 0.5); }
+  .chat[hidden] { display: none; }
+  .chat-head { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: var(--c-card); border-bottom: 1px solid var(--c-line); }
+  .chat-head p { margin: 0; }
+  #chat-title { font-weight: 700; }
+  .online { font-size: 0.78rem; color: var(--c-accent); }
+  .avatar.small { width: 40px; height: 40px; font-size: 1rem; }
+  .avatar.small :global(svg) { width: 22px; height: 22px; }
+  .x { margin-inline-start: auto; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 0; background: transparent; color: var(--c-text); cursor: pointer; }
+  .x:hover { background: rgb(255 255 255 / 0.08); }
+  .x :global(svg) { width: 20px; height: 20px; }
+  .log { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .log :global(.bubble) { margin: 0; padding: 10px 14px; border-radius: 18px; max-width: 85%; line-height: 1.75; font-size: 0.92rem; }
+  .log :global(.bot) { align-self: flex-start; background: var(--c-card); border-end-start-radius: 4px; }
+  .log :global(.me) { align-self: flex-end; background: var(--c-accent); color: var(--c-on); border-end-end-radius: 4px; }
+  .log :global(.typing) { display: flex; gap: 4px; }
+  .log :global(.typing span) { width: 6px; height: 6px; border-radius: 50%; background: var(--c-accent); animation: blink 1.2s infinite; }
+  .log :global(.typing span:nth-child(2)) { animation-delay: 0.2s; }
+  .log :global(.typing span:nth-child(3)) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+  .quick { display: flex; gap: 6px; padding: 0 12px 10px; overflow-x: auto; scrollbar-width: none; }
+  .quick button { flex: none; padding: 8px 12px; border-radius: 99px; border: 1px solid var(--c-line); background: transparent; color: var(--c-text); font: inherit; font-size: 0.82rem; cursor: pointer; }
+  .quick button:hover { border-color: var(--c-accent); }
+  .compose { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--c-line); }
+  .compose input { min-height: 44px; border-radius: 99px; }
+  .compose button { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--c-accent); color: var(--c-on); cursor: pointer; }
+  .compose button :global(svg) { width: 20px; height: 20px; transform: scaleX(-1); }
+
+  @media (max-width: 900px) {
+    nav { display: none; }
+    .hero-grid, .book, .visit { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 420px) { .slots { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fab span { display: none; } .fab { padding: 14px; } }
+  @media (prefers-reduced-motion: reduce) {
+    .btn, .services .card { transition: none; }
+    .btn:hover, .services .card:hover { transform: none; }
+    .log :global(.typing span) { animation: none; opacity: 0.6; }
+  }
+</style>

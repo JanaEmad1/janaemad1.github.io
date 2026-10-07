@@ -1,0 +1,8 @@
+---
+import { getCollection } from 'astro:content';
+import Project from '../../components/Project.astro';
+export async function getStaticPaths() {
+  return (await getCollection('projects')).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+---
+<Project lang="ar" entry={Astro.props.entry} />

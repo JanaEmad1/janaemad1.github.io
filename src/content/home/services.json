@@ -1,0 +1,14 @@
+[
+  { "id": "1-websites", "icon": "globe",
+    "title": { "ar": "مواقع شركات وصفحات هبوط", "en": "Business websites and landing pages" },
+    "text": { "ar": "عربي أولاً مع نسخة إنجليزية، سريع على الجوال ومهيأ لمحركات البحث.", "en": "Arabic-first with an English version, fast on mobile and ready for search engines." } },
+  { "id": "2-assistant", "icon": "bot",
+    "title": { "ar": "مساعد ذكي على واتساب أو الموقع", "en": "AI assistant on WhatsApp or your site" },
+    "text": { "ar": "يرد على عملائك ٢٤ ساعة باللهجة الخليجية، يحجز المواعيد ويحوّل للموظف عند الحاجة.", "en": "Answers customers 24/7 in Gulf Arabic, books appointments and hands over to staff when needed." } },
+  { "id": "3-menu", "icon": "qr",
+    "title": { "ar": "منيو QR ومتاجر بسيطة", "en": "QR menus and simple stores" },
+    "text": { "ar": "منيو أو كتالوج منتجات مع سلة وطلب مباشر على واتساب، بدون عمولات منصات.", "en": "A menu or product catalogue with a cart and direct WhatsApp ordering, no platform commissions." } },
+  { "id": "4-speed", "icon": "bolt",
+    "title": { "ar": "تسريع وتحسين موقعك الحالي", "en": "Speed and SEO for your current site" },
+    "text": { "ar": "نرفع سرعة التحميل وترتيب جوجل ونصلح مشاكل العرض على الجوال.", "en": "Faster loading, better Google ranking and fixed mobile layout issues." } }
+]

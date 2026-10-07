@@ -1,0 +1,33 @@
+---
+// Strip on every demo so visitors know the business is fictional, plus a floating button that
+// stays on screen while scrolling so they can always get back to the portfolio.
+import Icon from './Icon.astro';
+interface Props { tone?: 'teal' | 'coffee' }
+const { tone = 'teal' } = Astro.props;
+---
+<div class={`ribbon ${tone}`}>
+  <span>ديمو من تصميم جنى · نشاط وهمي للعرض فقط</span>
+  <a href="/#work">ارجع للأعمال</a>
+</div>
+<a class={`back ${tone}`} href="/#work"><Icon name="arrow" /><span>كل الأعمال</span></a>
+
+<style>
+  .ribbon { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; padding: 8px 16px; font-size: 0.8rem; text-align: center; }
+  .ribbon a { font-weight: 600; text-underline-offset: 3px; }
+  .teal { background: #5dcaa5; color: #04342c; }
+  .coffee { background: #c8922a; color: #1a1208; }
+
+  .back {
+    position: fixed; inset-inline-start: 18px; bottom: 18px; z-index: 55;
+    display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px;
+    border-radius: 99px; font-weight: 700; font-size: 0.9rem; text-decoration: none;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.45); transition: bottom 0.25s ease;
+  }
+  .back :global(svg) { width: 18px; height: 18px; }
+  /* Arrow points "back": right in RTL pages, left in LTR pages. */
+  :global([dir='ltr']) .back :global(svg) { transform: scaleX(-1); }
+  /* Café: lift the button above the floating cart bar while it is visible. */
+  :global(.cafe:has(.cart-bar:not([hidden]))) .back { bottom: 86px; }
+  .back:focus-visible { outline: 3px solid #f4f1ed; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { .back { transition: none; } }
+</style>

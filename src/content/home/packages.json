@@ -1,0 +1,26 @@
+[
+  { "id": "1-start", "featured": false,
+    "name": { "ar": "انطلاقة", "en": "Start" },
+    "features": [
+      { "ar": "صفحة هبوط واحدة", "en": "One landing page" },
+      { "ar": "عربي + إنجليزي", "en": "Arabic + English" },
+      { "ar": "زر واتساب وخرائط جوجل", "en": "WhatsApp button and Google Maps" },
+      { "ar": "تعديلين مجاناً", "en": "Two free revisions" }
+    ] },
+  { "id": "2-grow", "featured": true,
+    "name": { "ar": "نمو", "en": "Grow" },
+    "features": [
+      { "ar": "موقع كامل حتى ٦ صفحات", "en": "Full website, up to 6 pages" },
+      { "ar": "مساعد واتساب ذكي باللهجة الخليجية", "en": "AI WhatsApp assistant in Gulf Arabic" },
+      { "ar": "نموذج حجز مواعيد", "en": "Appointment booking form" },
+      { "ar": "ثلاث تعديلات ودعم أسبوعين", "en": "Three revisions and two weeks of support" }
+    ] },
+  { "id": "3-pro", "featured": false,
+    "name": { "ar": "احترافي", "en": "Pro" },
+    "features": [
+      { "ar": "منيو أو متجر كامل مع سلة", "en": "Full menu or store with a cart" },
+      { "ar": "لوحة بسيطة لتعديل المحتوى", "en": "Simple panel to edit content" },
+      { "ar": "تحسين سرعة و SEO / تسريع وتحسين موقعك الحالي", "en": "Speed and SEO optimisation / speeding up and improving your current site" },
+      { "ar": "دعم شهر بعد التسليم", "en": "One month of support after delivery" }
+    ] }
+]

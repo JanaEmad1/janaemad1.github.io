@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import { ui, type Lang } from '../i18n/ui';
+import { site } from '../site.config';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+---
+<footer class="footer">
+  <div class="container row">
+    <p>© {new Date().getFullYear()} {site.name[lang]} · {t.footer.rights}</p>
+    <p class="note">{t.footer.demoNote}</p>
+    <a class="gh" href={site.githubUrl} rel="noopener" target="_blank"><Icon name="github" label="GitHub" /></a>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 1px solid var(--line); padding-block: 28px; color: var(--muted); font-size: 0.85rem; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: center; justify-content: space-between; }
+  .gh { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 99px; color: var(--text); }
+  .gh:hover { background: var(--card); }
+  .gh :global(svg) { width: 22px; height: 22px; }
+</style>

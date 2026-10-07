@@ -1,0 +1,12 @@
+{
+  "order": 2, "kind": "demo", "tone": "coffee", "liveUrl": "/demos/cafe/",
+  "title": { "ar": "قهوة الديرة", "en": "Al Deera Coffee" },
+  "tagline": { "ar": "منيو QR مع سلة وطلب على واتساب", "en": "QR menu with a cart and WhatsApp ordering" },
+  "problem": { "ar": "المقاهي تدفع عمولات عالية لتطبيقات التوصيل، والمنيو الـ PDF صعب يتصفح على الجوال.", "en": "Cafés pay high delivery-app commissions, and PDF menus are hard to browse on a phone." },
+  "solution": { "ar": "منيو تفاعلي يفتح من QR، بأقسام وأسعار بالدينار، وسلة ترسل الطلب جاهز على واتساب المقهى.", "en": "An interactive menu opened from a QR code, with categories, KWD prices and a cart that sends a ready order to the café's WhatsApp." },
+  "results": [
+    { "ar": "طلب مباشر بدون عمولة منصات", "en": "Direct orders with no platform commission" },
+    { "ar": "يفتح في أقل من ثانية على الجوال", "en": "Opens in under a second on mobile" }
+  ],
+  "stack": ["Astro", "Vanilla JS", "WhatsApp"]
+}

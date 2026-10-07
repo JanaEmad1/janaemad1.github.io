@@ -1,0 +1,12 @@
+{
+  "order": 1, "kind": "demo", "tone": "teal", "liveUrl": "/demos/clinic/",
+  "title": { "ar": "عيادة ابتسامة", "en": "Ibtisama Dental" },
+  "tagline": { "ar": "موقع عيادة أسنان مع حجز ومساعد ذكي", "en": "Dental clinic site with booking and an AI assistant" },
+  "problem": { "ar": "العيادات تضيّع مواعيد لأن الرسائل بعد الدوام ما ينرد عليها، والعميل يحجز عند غيرها.", "en": "Clinics lose bookings because after-hours messages go unanswered and patients book elsewhere." },
+  "solution": { "ar": "موقع عربي سريع يعرض الخدمات والأطباء، مع نموذج حجز ومساعد يرد على الأسئلة الشائعة باللهجة الكويتية.", "en": "A fast Arabic site showing services and doctors, with a booking form and an assistant that answers common questions in Kuwaiti Arabic." },
+  "results": [
+    { "ar": "حجز موعد في أقل من ٣٠ ثانية من الجوال", "en": "Book an appointment in under 30 seconds on mobile" },
+    { "ar": "رد فوري على الأسئلة بعد الدوام", "en": "Instant answers to after-hours questions" }
+  ],
+  "stack": ["Astro", "RTL", "AI assistant"]
+}

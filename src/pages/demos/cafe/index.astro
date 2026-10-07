@@ -1,0 +1,489 @@
+---
+import '@fontsource/almarai/arabic-400.css';
+import '@fontsource/almarai/arabic-700.css';
+import '@fontsource/almarai/arabic-800.css';
+import Base from '../../../layouts/Base.astro';
+import Icon from '../../../components/Icon.astro';
+import DemoRibbon from '../../../components/DemoRibbon.astro';
+import almarai400 from '@fontsource/almarai/files/almarai-arabic-400-normal.woff2?url';
+import almarai800 from '@fontsource/almarai/files/almarai-arabic-800-normal.woff2?url';
+
+// Demo menu for a fictional café. Prices in KWD use 3 decimals (fils), as Kuwaiti menus do.
+// Each item's photo lives at public/demos/cafe/<id>.webp (see CREDITS.md).
+type Item = { id: string; name: string; desc: string; price: number; tag?: string };
+const menu: { id: string; title: string; items: Item[] }[] = [
+  { id: 'hot', title: 'قهوة حارة', items: [
+    { id: 'spanish', name: 'سبانش لاتيه', desc: 'دبل شوت مع حليب مكثف محلّى.', price: 1.5, tag: 'الأكثر طلباً' },
+    { id: 'arabic', name: 'قهوة عربية بالهيل', desc: 'دلة لشخصين مع تمر خلاص.', price: 0.75 },
+    { id: 'v60', name: 'V60 مختصة', desc: 'محصول إثيوبي بنكهة التوت والياسمين.', price: 1.75 },
+    { id: 'flat', name: 'فلات وايت', desc: 'ريستريتو مزدوج وحليب مخملي.', price: 1.25 },
+  ] },
+  { id: 'cold', title: 'مشروبات باردة', items: [
+    { id: 'iced-spanish', name: 'آيس سبانش لاتيه', desc: 'نسخة باردة من مشروبنا الأشهر.', price: 1.75, tag: 'جديد' },
+    { id: 'cold-brew', name: 'كولد برو', desc: 'منقوع ١٨ ساعة، ناعم وقليل الحموضة.', price: 1.5 },
+    { id: 'saffron-milk', name: 'حليب زعفران مثلج', desc: 'زعفران وهيل وماء ورد.', price: 1.25 },
+  ] },
+  { id: 'sweets', title: 'حلا', items: [
+    { id: 'saffron-cake', name: 'كيكة زعفران', desc: 'طازجة يومياً مع صوص الحليب.', price: 1.25, tag: 'الأكثر طلباً' },
+    { id: 'pistachio', name: 'تشيز كيك فستق', desc: 'فستق حلبي وقاعدة بسكويت لوتس.', price: 1.5 },
+    { id: 'date-cake', name: 'كيكة تمر', desc: 'تمر خلاص مع صوص التوفي الدافئ.', price: 1.0 },
+  ] },
+  { id: 'bakery', title: 'مخبوزات', items: [
+    { id: 'croissant', name: 'كرواسون زعتر', desc: 'زعتر وزيت زيتون وجبنة عكاوي.', price: 0.85 },
+    { id: 'cinnamon', name: 'سينابون بالهيل', desc: 'عجينة طرية مع سكر بالهيل.', price: 0.95 },
+  ] },
+];
+const branches = [
+  { name: 'فرع حولي', note: 'شارع تونس · ٧ص – ١٢ منتصف الليل' },
+  { name: 'فرع الشويخ', note: 'منطقة المعارض · ٦ص – ١١م' },
+  { name: 'فرع صباح السالم', note: 'درايف ثرو · ٢٤ ساعة' },
+];
+const fmt = (n: number) => n.toLocaleString('ar-KW', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+---
+<Base
+  lang="ar"
+  title="قهوة الديرة | منيو وطلب أونلاين (ديمو)"
+  description="ديمو منيو QR لمقهى في الكويت: أقسام، أسعار بالدينار، سلة وطلب مباشر على واتساب بدون عمولات."
+  theme="fixed"
+  themeColor="#0e0c09"
+  fonts={[almarai400, almarai800]}
+>
+  <div class="cafe">
+    <DemoRibbon tone="coffee" />
+    <a class="skip" href="#menu">تخطَّ إلى المنيو</a>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="logo" href="#main">الديرة<span>.</span></a>
+        <nav aria-label="الرئيسية"><a href="#menu">المنيو</a><a href="#branches">الفروع</a><a href="#story">قصتنا</a></nav>
+        <button class="cart-btn" type="button" data-open-cart aria-label="السلة، ٠ منتج">
+          <Icon name="bag" /><span class="count" data-count>٠</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="glow" aria-hidden="true"></div>
+        <div class="wrap hero-in">
+          <div class="hero-copy">
+          <span class="pill"><span class="dot" aria-hidden="true"></span>قهوة مختصة · الكويت منذ ٢٠١٩</span>
+          <h1>القهوة<br /><span>فن.</span></h1>
+          <p class="lead">نحمّص يومياً ونقدّم بحب. اطلب من المنيو وتوصلك طلبيتك جاهزة على واتساب الفرع، بدون تطبيقات ولا عمولات.</p>
+          <div class="actions">
+            <a class="btn solid" href="#menu"><Icon name="down" />شوف المنيو</a>
+            <a class="btn dark" href="#branches">أقرب فرع<Icon name="arrow" class="flip" /></a>
+          </div>
+          </div>
+          <picture>
+            <!-- Phones show the photo landscape (4:3), so they get a landscape crop instead of the tall one. -->
+            <source media="(max-width: 760px)" srcset="/demos/cafe/hero-wide.webp" width="680" height="510" />
+            <img class="hero-img" src="/demos/cafe/hero.webp" alt="باريستا يصب الحليب ويرسم لاتيه آرت في كوب قهوة" width="720" height="860" fetchpriority="high" />
+          </picture>
+        </div>
+      </section>
+
+      <!-- The category bar is sticky only inside this wrapper, so it never covers the sections after the menu,
+           and #menu is a normal (non-sticky) element the browser can always scroll to. -->
+      <div class="menu-area" id="menu">
+      <div class="cats">
+        <nav class="wrap cats-in" aria-label="أقسام المنيو">
+          {menu.map((c, i) => <a href={`#${c.id}`} class:list={{ on: i === 0 }}>{c.title}</a>)}
+        </nav>
+      </div>
+
+      <div class="wrap">
+        {menu.map((c) => (
+          <section class="cat" id={c.id} aria-labelledby={`${c.id}-h`}>
+            <h2 id={`${c.id}-h`}>{c.title}</h2>
+            <ul class="items">
+              {c.items.map((it) => (
+                <li class="item reveal">
+                  <img class="art" src={`/demos/cafe/${it.id}.webp`} srcset={`/demos/cafe/${it.id}-160.webp 160w, /demos/cafe/${it.id}.webp 240w`} sizes="88px" alt="" width="88" height="88" loading="lazy" decoding="async" />
+                  <div class="info">
+                    <h3>{it.name}{it.tag && <span class="tag">{it.tag}</span>}</h3>
+                    <p>{it.desc}</p>
+                    <p class="price">{fmt(it.price)} د.ك</p>
+                  </div>
+                  <button class="add" type="button" data-add={it.id} data-name={it.name} data-price={it.price} aria-label={`أضف ${it.name} إلى السلة`}>
+                    <Icon name="plus" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+      </div>
+
+      <section id="story" class="sec">
+        <div class="wrap story">
+          <div>
+            <h2>من الحبة<br /><span>للفنجان.</span></h2>
+          </div>
+          <ul class="values">
+            <li><strong>محمّصة محلياً</strong><span>نحمّص كل صباح في الشويخ بكميات صغيرة.</span></li>
+            <li><strong>مزارع مختارة</strong><span>محاصيل من إثيوبيا وكولومبيا واليمن.</span></li>
+            <li><strong>نقاط ولاء</strong><span>كل ١٠ أكواب، الكوب الـ ١١ علينا.</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="branches" class="sec">
+        <div class="wrap">
+          <h2>فروعنا</h2>
+          <ul class="branches">
+            {branches.map((b) => (
+              <li class="reveal"><Icon name="pin" /><div><strong>{b.name}</strong><span>{b.note}</span></div></li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot"><div class="wrap">© قهوة الديرة · نشاط وهمي للعرض</div></footer>
+
+    <!-- Floating cart summary -->
+    <button class="cart-bar" type="button" data-open-cart hidden>
+      <span><span data-count>٠</span> منتج</span>
+      <strong>عرض السلة · <span data-total>٠٫٠٠٠</span> د.ك</strong>
+    </button>
+
+    <!-- Cart drawer -->
+    <div class="scrim" data-close-cart hidden></div>
+    <aside class="drawer" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+      <div class="drawer-head">
+        <h2 id="cart-title">سلتك</h2>
+        <button class="x" type="button" data-close-cart aria-label="إغلاق السلة"><Icon name="x" /></button>
+      </div>
+      <div class="drawer-body">
+        <p class="empty" data-empty>السلة فاضية. أضف شي من المنيو.</p>
+        <ul class="lines" id="lines"></ul>
+        <form id="order" class="order" novalidate>
+          <fieldset>
+            <legend>طريقة الاستلام</legend>
+            <div class="seg">
+              <label><input type="radio" name="mode" value="استلام من الفرع" checked /><span>استلام</span></label>
+              <label><input type="radio" name="mode" value="توصيل" /><span>توصيل</span></label>
+            </div>
+          </fieldset>
+          <label for="branch">الفرع</label>
+          <select id="branch" name="branch">{branches.map((b) => <option>{b.name}</option>)}</select>
+          <label for="cname">الاسم</label>
+          <input id="cname" name="name" autocomplete="name" required />
+          <div class="area" data-area hidden>
+            <label for="addr">المنطقة والقطعة</label>
+            <input id="addr" name="address" autocomplete="street-address" placeholder="السالمية، ق ١٠" />
+          </div>
+          <label for="notes">ملاحظات</label>
+          <input id="notes" name="notes" placeholder="بدون سكر، حليب شوفان…" />
+          <p class="error" id="order-error" role="alert"></p>
+        </form>
+      </div>
+      <div class="drawer-foot">
+        <p class="sum"><span>المجموع</span><strong><span data-total>٠٫٠٠٠</span> د.ك</strong></p>
+        <button class="btn solid wide" type="submit" form="order"><Icon name="whatsapp" />أرسل الطلب واتساب</button>
+      </div>
+    </aside>
+
+    <!-- What the café would receive on WhatsApp (demo stops here instead of opening a real chat) -->
+    <div class="scrim" data-close-sent hidden></div>
+    <div class="sent" id="sent" role="dialog" aria-modal="true" aria-labelledby="sent-title" tabindex="-1" hidden>
+      <h2 id="sent-title">هذي الرسالة اللي توصل الفرع</h2>
+      <pre id="preview" dir="rtl"></pre>
+      <p class="note">في النسخة الحقيقية يفتح واتساب على رقم الفرع والرسالة جاهزة، والعميل بس يضغط إرسال.</p>
+      <button class="btn solid wide" type="button" data-close-sent>تمام</button>
+    </div>
+  </div>
+</Base>
+
+<script>
+  type Line = { id: string; name: string; price: number; qty: number };
+  const KEY = 'deera-cart';
+  const nf = new Intl.NumberFormat('ar-KW', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+  const n0 = new Intl.NumberFormat('ar-KW');
+  let cart: Line[] = [];
+  try { cart = JSON.parse(localStorage.getItem('deera-cart') ?? '[]'); if (!Array.isArray(cart)) cart = []; } catch { cart = []; }
+
+  const $ = <T extends HTMLElement>(s: string) => document.querySelector(s) as T;
+  const linesEl = $<HTMLUListElement>('#lines');
+  const drawer = $<HTMLElement>('#cart');
+  const sent = $<HTMLElement>('#sent');
+  const bar = $<HTMLButtonElement>('.cart-bar');
+  const orderForm = $<HTMLFormElement>('#order');
+  let opener: HTMLElement | null = null;
+
+  const total = () => cart.reduce((s, l) => s + l.price * l.qty, 0);
+  const count = () => cart.reduce((s, l) => s + l.qty, 0);
+
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(cart)); } catch {} }
+
+  function render() {
+    const c = count();
+    document.querySelectorAll('[data-count]').forEach((el) => (el.textContent = n0.format(c)));
+    document.querySelectorAll('[data-total]').forEach((el) => (el.textContent = nf.format(total())));
+    $('.cart-btn').setAttribute('aria-label', `السلة، ${n0.format(c)} منتج`);
+    bar.hidden = c === 0 || !drawer.hidden;
+    $('[data-empty]').hidden = c > 0;
+    orderForm.hidden = c === 0;
+    linesEl.replaceChildren(...cart.map((l) => {
+      const li = document.createElement('li');
+      const name = document.createElement('span');
+      name.className = 'lname';
+      name.textContent = l.name;
+      const price = document.createElement('span');
+      price.className = 'lprice';
+      price.textContent = `${nf.format(l.price * l.qty)} د.ك`;
+      const qty = document.createElement('span');
+      qty.className = 'qty';
+      const minus = document.createElement('button');
+      minus.type = 'button'; minus.textContent = '−'; minus.setAttribute('aria-label', `أنقص ${l.name}`);
+      minus.addEventListener('click', () => change(l.id, -1));
+      const num = document.createElement('span'); num.textContent = n0.format(l.qty); num.setAttribute('aria-live', 'polite');
+      const plus = document.createElement('button');
+      plus.type = 'button'; plus.textContent = '+'; plus.setAttribute('aria-label', `زد ${l.name}`);
+      plus.addEventListener('click', () => change(l.id, 1));
+      qty.append(minus, num, plus);
+      li.append(name, qty, price);
+      return li;
+    }));
+  }
+
+  function change(id: string, d: number) {
+    const l = cart.find((x) => x.id === id);
+    if (!l) return;
+    l.qty += d;
+    if (l.qty <= 0) cart = cart.filter((x) => x.id !== id);
+    save(); render();
+    if (!cart.length) $<HTMLElement>('.x').focus();
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-add]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const id = b.dataset.add!;
+      const l = cart.find((x) => x.id === id);
+      if (l) l.qty++;
+      else cart.push({ id, name: b.dataset.name!, price: Number(b.dataset.price), qty: 1 });
+      save(); render();
+      b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+    }),
+  );
+
+  // While a dialog is open, everything else on the page is inert: Tab and screen readers stay inside it.
+  const root = $<HTMLElement>('.cafe');
+  function setInert(except: HTMLElement[] | null) {
+    for (const child of Array.from(root.children) as HTMLElement[]) child.inert = !!except && !except.includes(child);
+  }
+  function show(el: HTMLElement, scrimSel: string) { el.hidden = false; $(scrimSel).hidden = false; document.body.classList.add('lock'); setInert([el, $(scrimSel)]); }
+  function hide(el: HTMLElement, scrimSel: string) { el.hidden = true; $(scrimSel).hidden = true; document.body.classList.remove('lock'); setInert(null); }
+
+  function openCart(e: Event) {
+    opener = e.currentTarget as HTMLElement;
+    show(drawer, '.scrim[data-close-cart]');
+    render();
+    $<HTMLElement>('.x').focus();
+  }
+  function closeCart() { hide(drawer, '.scrim[data-close-cart]'); render(); (opener ?? $('.cart-btn')).focus(); }
+  document.querySelectorAll('[data-open-cart]').forEach((b) => b.addEventListener('click', openCart));
+  document.querySelectorAll('[data-close-cart]').forEach((b) => b.addEventListener('click', closeCart));
+  document.querySelectorAll('[data-close-sent]').forEach((b) => b.addEventListener('click', () => { hide(sent, '.scrim[data-close-sent]'); $<HTMLElement>('.cart-btn').focus(); }));
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!sent.hidden) { hide(sent, '.scrim[data-close-sent]'); $<HTMLElement>('.cart-btn').focus(); }
+    else if (!drawer.hidden) closeCart();
+  });
+
+  // Delivery shows the address field.
+  orderForm.addEventListener('change', () => {
+    const delivery = (new FormData(orderForm).get('mode')) === 'توصيل';
+    $('[data-area]').hidden = !delivery;
+  });
+
+  orderForm.addEventListener('input', () => { $('#order-error').textContent = ''; });
+  orderForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const err = $('#order-error');
+    const d = new FormData(orderForm);
+    const name = String(d.get('name') ?? '').trim();
+    const mode = String(d.get('mode'));
+    const address = String(d.get('address') ?? '').trim();
+    if (!cart.length) { err.textContent = 'السلة فاضية'; return; }
+    if (!name) { err.textContent = 'اكتب اسمك عشان نعرف الطلب لمن'; $<HTMLInputElement>('#cname').focus(); return; }
+    if (mode === 'توصيل' && !address) { err.textContent = 'اكتب منطقة التوصيل'; $<HTMLInputElement>('#addr').focus(); return; }
+    const lines = cart.map((l) => `• ${l.name} × ${n0.format(l.qty)} = ${nf.format(l.price * l.qty)} د.ك`).join('\n');
+    const notes = String(d.get('notes') ?? '').trim();
+    const msg = [
+      `طلب جديد من ${name}`,
+      `${mode} · ${d.get('branch')}`,
+      mode === 'توصيل' ? `العنوان: ${address}` : '',
+      '',
+      lines,
+      '',
+      `المجموع: ${nf.format(total())} د.ك`,
+      notes ? `ملاحظات: ${notes}` : '',
+    ].filter((x, i, a) => x !== '' || (a[i - 1] ?? '') !== '').join('\n');
+    $('#preview').textContent = msg;
+    hide(drawer, '.scrim[data-close-cart]');
+    show(sent, '.scrim[data-close-sent]');
+    sent.focus();
+    cart = []; save(); render();
+  });
+
+  // Highlight the category pill for the section in view.
+  // Only the pill row scrolls sideways; scrollIntoView here would cancel the page's own smooth scroll.
+  const pills = document.querySelectorAll<HTMLAnchorElement>('.cats-in a');
+  const row = $<HTMLElement>('.cats-in');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      pills.forEach((p) => p.classList.toggle('on', p.hash === `#${en.target.id}`));
+      const on = row.querySelector<HTMLElement>('a.on');
+      if (on) {
+        const r = on.getBoundingClientRect();
+        const box = row.getBoundingClientRect();
+        row.scrollBy({ left: r.left + r.width / 2 - (box.left + box.width / 2) });
+      }
+    });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  document.querySelectorAll('.cat').forEach((s) => io.observe(s));
+
+  render();
+</script>
+
+<style>
+  .cafe {
+    --k-bg: #0e0c09; --k-card: #1e1814; --k-card-2: #161210; --k-line: rgb(244 241 237 / 0.1);
+    --k-text: #f4f1ed; --k-muted: #a8998a; --k-sage: #718573; --k-sage-text: #9db3a0; --k-gold: #d9a441;
+    background: var(--k-bg); color: var(--k-text); min-height: 100vh;
+    font-family: 'Almarai', system-ui, sans-serif;
+  }
+  .cafe :global(h1), .cafe :global(h2), .cafe :global(h3) { font-family: 'Almarai', sans-serif; font-weight: 800; }
+  .wrap { width: min(100% - 32px, 1080px); margin-inline: auto; }
+  .skip { position: absolute; inset-inline-start: 16px; top: -60px; z-index: 100; background: var(--k-sage); color: var(--k-bg); padding: 8px 16px; border-radius: 99px; }
+  .skip:focus { top: 12px; }
+  .cafe :focus-visible { outline: 2px solid var(--k-sage-text); outline-offset: 3px; }
+  :global(body.lock) { overflow: hidden; }
+
+  .top { position: sticky; top: 0; z-index: 40; background: rgb(14 12 9 / 0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 66px; }
+  .logo { font-size: 1.5rem; font-weight: 800; text-decoration: none; }
+  .logo span { color: var(--k-sage); }
+  nav:not(.cats-in) { display: flex; gap: 28px; }
+  nav:not(.cats-in) a { color: var(--k-muted); text-decoration: none; font-size: 0.95rem; }
+  nav:not(.cats-in) a:hover { color: var(--k-text); }
+  .cart-btn { position: relative; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 99px; border: 0; background: var(--k-sage); color: var(--k-bg); font: inherit; font-weight: 700; cursor: pointer; }
+  .cart-btn :global(svg) { width: 20px; height: 20px; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 24px; border-radius: 99px; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; border: 0; transition: transform 0.2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn :global(svg) { width: 18px; height: 18px; }
+  .btn :global(.flip) { transform: scaleX(-1); }
+  .solid { background: var(--k-sage); color: var(--k-bg); }
+  .dark { background: var(--k-card); color: var(--k-text); }
+  .wide { width: 100%; }
+
+  .hero { position: relative; overflow: hidden; padding-block: clamp(56px, 11vw, 130px) clamp(48px, 8vw, 90px); }
+  .glow { position: absolute; inset-inline-start: -20%; bottom: -40%; width: 80vw; height: 80vw; max-width: 900px; max-height: 900px; background: radial-gradient(circle, rgb(113 133 115 / 0.3), transparent 60%); pointer-events: none; }
+  .hero-in { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+  .hero-img { width: 100%; height: auto; aspect-ratio: 720 / 860; object-fit: cover; border-radius: 32px; border: 1px solid var(--k-line); }
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 99px; background: rgb(113 133 115 / 0.14); border: 1px solid rgb(113 133 115 / 0.35); color: var(--k-sage-text); font-size: 0.82rem; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--k-sage-text); }
+  h1 { font-size: clamp(3.4rem, 13vw, 7.5rem); line-height: 1.05; margin: 22px 0 22px; letter-spacing: -0.02em; }
+  h1 span { color: var(--k-sage-text); }
+  .lead { color: var(--k-muted); font-size: clamp(1rem, 1.8vw, 1.15rem); max-width: 520px; line-height: 1.9; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+
+  .cats { position: sticky; top: 66px; z-index: 30; background: rgb(14 12 9 / 0.9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--k-line); }
+  .menu-area { scroll-margin-top: 66px; }
+  .cats-in { display: flex; gap: 8px; padding-block: 12px; overflow-x: auto; scrollbar-width: none; }
+  .cats-in a { flex: none; padding: 8px 18px; border-radius: 99px; background: var(--k-card); color: var(--k-muted); text-decoration: none; font-size: 0.9rem; transition: background-color 0.2s, color 0.2s; }
+  .cats-in a.on { background: var(--k-text); color: var(--k-bg); font-weight: 700; }
+
+  .cat { padding-top: 40px; scroll-margin-top: 130px; }
+  .cat h2 { font-size: 1.6rem; margin: 0 0 18px; }
+  .items { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
+  .item { display: flex; align-items: center; gap: 14px; padding: 12px; background: var(--k-card); border-radius: 22px; }
+  .art { flex: none; width: 88px; height: 88px; border-radius: 18px; object-fit: cover; background: #3a2717; }
+  .info { flex: 1; min-width: 0; }
+  .info h3 { font-size: 1.05rem; margin: 0 0 2px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .tag { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 99px; background: rgb(217 164 65 / 0.16); color: var(--k-gold); }
+  .info p { margin: 0; color: var(--k-muted); font-size: 0.85rem; line-height: 1.7; }
+  .info .price { color: var(--k-gold); font-weight: 700; margin-top: 4px; font-size: 0.95rem; }
+  .add { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; border: 0; background: var(--k-sage); color: var(--k-bg); cursor: pointer; }
+  .add :global(svg) { width: 20px; height: 20px; stroke-width: 2.4; }
+  .add:global(.pop) { animation: pop 0.35s ease; }
+  @keyframes pop { 50% { transform: scale(1.18); } }
+
+  .sec { padding-block: clamp(64px, 10vw, 110px) 0; scroll-margin-top: 30px; }
+  .sec h2 { font-size: clamp(1.8rem, 5vw, 3rem); margin: 0 0 24px; line-height: 1.2; }
+  .story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px; align-items: start; }
+  .story h2 span { color: var(--k-sage-text); }
+  .values { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .values li { display: grid; gap: 2px; padding: 18px 20px; border-radius: 18px; background: var(--k-card-2); border: 1px solid var(--k-line); }
+  .values span { color: var(--k-muted); font-size: 0.9rem; }
+  .branches { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .branches li { display: flex; gap: 12px; padding: 20px; border-radius: 20px; background: var(--k-card); }
+  .branches :global(svg) { width: 22px; height: 22px; color: var(--k-sage-text); flex: none; margin-top: 3px; }
+  .branches div { display: grid; }
+  .branches span { color: var(--k-muted); font-size: 0.88rem; }
+  .foot { margin-top: 80px; padding-block: 26px 110px; border-top: 1px solid var(--k-line); color: var(--k-muted); font-size: 0.85rem; }
+
+  .cart-bar { position: fixed; inset-inline: 16px; bottom: 16px; z-index: 50; max-width: 520px; margin-inline: auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 22px; border-radius: 99px; border: 0; background: var(--k-sage); color: var(--k-bg); font: inherit; font-size: 0.95rem; cursor: pointer; box-shadow: 0 12px 34px rgb(0 0 0 / 0.5); }
+  .cart-bar[hidden] { display: none; }
+
+  .scrim { position: fixed; inset: 0; z-index: 80; background: rgb(0 0 0 / 0.55); }
+  .scrim[hidden] { display: none; }
+  .drawer { position: fixed; inset-block: 0; inset-inline-end: 0; z-index: 90; width: min(420px, 100vw); display: flex; flex-direction: column; background: var(--k-card-2); border-inline-start: 1px solid var(--k-line); }
+  .drawer[hidden] { display: none; }
+  .drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--k-line); }
+  .drawer-head h2 { font-size: 1.3rem; margin: 0; }
+  .x { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--k-card); color: var(--k-text); cursor: pointer; }
+  .x :global(svg) { width: 20px; height: 20px; }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 16px 20px; }
+  .empty { color: var(--k-muted); text-align: center; padding-block: 40px; }
+  .empty[hidden] { display: none; }
+  .lines { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 10px; }
+  .lines :global(li) { display: grid; grid-template-columns: 1fr auto; grid-template-areas: 'name price' 'qty qty'; gap: 8px; padding: 12px 14px; border-radius: 16px; background: var(--k-card); }
+  .lines :global(.lname) { grid-area: name; font-weight: 700; }
+  .lines :global(.lprice) { grid-area: price; color: var(--k-gold); font-weight: 700; }
+  .lines :global(.qty) { grid-area: qty; display: inline-flex; align-items: center; gap: 12px; justify-self: start; }
+  .lines :global(.qty button) { width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--k-line); background: var(--k-card-2); color: var(--k-text); font: inherit; font-size: 1.1rem; cursor: pointer; }
+  .order { display: grid; gap: 8px; }
+  .order[hidden] { display: none; }
+  fieldset { border: 0; padding: 0; margin: 0 0 6px; }
+  legend, .order label:not(.seg label) { font-weight: 700; font-size: 0.88rem; margin-top: 6px; }
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; padding: 4px; border-radius: 99px; background: var(--k-card); }
+  .seg label { position: relative; }
+  .seg input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .seg span { display: grid; place-items: center; min-height: 40px; border-radius: 99px; color: var(--k-muted); }
+  .seg input:checked + span { background: var(--k-text); color: var(--k-bg); font-weight: 700; }
+  .seg input:focus-visible + span { outline: 2px solid var(--k-sage-text); }
+  .order input:not([type='radio']), .order select { font: inherit; color: var(--k-text); background: var(--k-card); border: 1px solid var(--k-line); border-radius: 14px; padding: 11px 14px; min-height: 46px; width: 100%; color-scheme: dark; }
+  .order input:focus, .order select:focus { outline: none; border-color: var(--k-sage); box-shadow: 0 0 0 3px rgb(113 133 115 / 0.3); }
+  .area { display: grid; gap: 8px; }
+  .area[hidden] { display: none; }
+  .error { color: #ff9b8a; margin: 4px 0 0; font-size: 0.9rem; }
+  .error:empty { display: none; }
+  .drawer-foot { padding: 16px 20px 20px; border-top: 1px solid var(--k-line); display: grid; gap: 12px; }
+  .sum { display: flex; justify-content: space-between; margin: 0; font-size: 1.05rem; }
+  .sum strong { color: var(--k-gold); }
+
+  .sent { position: fixed; inset-inline: 16px; top: 50%; transform: translateY(-50%); z-index: 95; max-width: 440px; margin-inline: auto; padding: 24px; border-radius: 24px; background: var(--k-card-2); border: 1px solid var(--k-line); display: grid; gap: 14px; }
+  .sent[hidden] { display: none; }
+  .sent h2 { font-size: 1.2rem; margin: 0; }
+  pre { margin: 0; white-space: pre-wrap; font-family: inherit; line-height: 1.9; padding: 14px 16px; border-radius: 16px 16px 4px 16px; background: #1f3b2b; color: #e8f5ec; max-height: 50vh; overflow-y: auto; }
+  .note { margin: 0; color: var(--k-muted); font-size: 0.85rem; }
+
+  @media (max-width: 760px) {
+    nav:not(.cats-in) { display: none; }
+    .story { grid-template-columns: 1fr; }
+    .hero-in { grid-template-columns: 1fr; gap: 32px; }
+    .hero-img { aspect-ratio: 4 / 3; border-radius: 24px; }
+    .items { grid-template-columns: 1fr; }
+    .art { width: 76px; height: 76px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+    .btn:hover { transform: none; }
+    .add:global(.pop) { animation: none; }
+  }
+</style>

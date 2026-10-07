@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+
+# Private: Mostaql profile texts and pricing strategy
+MOSTAQL-KIT.md
+
+# Local editor/agent settings
+.claude/

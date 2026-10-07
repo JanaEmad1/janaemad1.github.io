@@ -1,0 +1,6 @@
+[
+  { "id": "1", "title": { "ar": "نتفاهم", "en": "We talk" }, "text": { "ar": "نناقش فكرتك وجمهورك على مستقل، وأرسل لك خطة وعرض واضح.", "en": "We discuss your idea and audience on Mostaql, and I send a clear plan and offer." } },
+  { "id": "2", "title": { "ar": "أصمم", "en": "I design" }, "text": { "ar": "تشوف التصميم قبل البرمجة وتطلب التعديلات اللي تبيها.", "en": "You see the design before any code and ask for the changes you want." } },
+  { "id": "3", "title": { "ar": "أبني", "en": "I build" }, "text": { "ar": "أبني الموقع وأرسل لك رابط تجربة تتابع عليه أول بأول.", "en": "I build the site and share a preview link so you can follow along." } },
+  { "id": "4", "title": { "ar": "نطلق", "en": "We launch" }, "text": { "ar": "أنشر الموقع على دومينك وأعلّمك كيف تعدّل المحتوى بنفسك.", "en": "I publish on your domain and show you how to edit the content yourself." } }
+]

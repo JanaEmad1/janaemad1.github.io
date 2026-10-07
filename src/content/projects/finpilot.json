@@ -1,0 +1,12 @@
+{
+  "order": 4, "kind": "ai", "tone": "neutral", "repoUrl": "https://github.com/JanaEmad1/finpilot",
+  "title": { "ar": "FinPilot", "en": "FinPilot" },
+  "tagline": { "ar": "مساعد بنكي ذكي يرد على العملاء تلقائياً", "en": "An AI banking assistant that answers customers automatically" },
+  "problem": { "ar": "فرق خدمة العملاء تغرق في أسئلة متكررة.", "en": "Customer-service teams drown in repetitive questions." },
+  "solution": { "ar": "مساعد بنموذج لغوي، أدوات SQL آمنة، وإخفاء البيانات الشخصية، مع اختبار قبل كل إصدار.", "en": "An LLM assistant with safe SQL tools and PII redaction, tested before every release." },
+  "results": [
+    { "ar": "٨٤.٥٪ من الرسائل انردّت تلقائياً", "en": "84.5% of messages answered automatically" },
+    { "ar": "بدقة ٩٧.٣٪", "en": "At 97.3% accuracy" }
+  ],
+  "stack": ["LLM", "Gemini", "FastAPI", "A/B testing"]
+}

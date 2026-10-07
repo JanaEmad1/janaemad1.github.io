@@ -1,0 +1,100 @@
+/* Design tokens. Dark is the default theme; [data-theme="light"] switches it. */
+:root {
+  --bg: #0e0c09;
+  --bg-2: #161210;
+  --card: #1e1814;
+  --glass: rgb(255 255 255 / 0.05);
+  --line: rgb(244 241 237 / 0.12);
+  --text: #f4f1ed;
+  --muted: #a8998a;
+  --accent: #718573;
+  --accent-text: #9db3a0;
+  --on-accent: #0e0c09;
+  --gold: #c8922a;
+  --glow: rgb(113 133 115 / 0.28);
+  --radius: 18px;
+  --font: 'Alexandria', system-ui, 'Segoe UI', Tahoma, sans-serif;
+  --max: 1120px;
+  color-scheme: dark;
+}
+:root[data-theme='light'] {
+  --bg: #f4f1ed;
+  --bg-2: #ebe6df;
+  --card: #fffdf9;
+  --glass: rgb(255 255 255 / 0.6);
+  --line: rgb(14 12 9 / 0.12);
+  --text: #1a1510;
+  --muted: #6b5d50;
+  --accent: #4f6352;
+  --accent-text: #4f6352;
+  --on-accent: #f4f1ed;
+  --glow: rgb(113 133 115 / 0.22);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+/* Smooth scrolling is switched on only after the page has loaded (see Base.astro), so arriving
+   from another page at /#work jumps straight to the section instead of animating from the top. */
+html.smooth { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 1rem;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+:lang(en) body, body:lang(en) { line-height: 1.65; }
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+h1, h2, h3 { line-height: 1.3; margin: 0; font-weight: 800; letter-spacing: -0.01em; }
+p { margin: 0; }
+:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 6px; }
+
+.container { width: min(100% - 32px, var(--max)); margin-inline: auto; }
+.skip { position: absolute; inset-inline-start: 16px; top: -60px; z-index: 100; background: var(--accent); color: var(--on-accent); padding: 8px 16px; border-radius: 99px; }
+.skip:focus { top: 12px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 22px; border-radius: 99px; border: 0;
+  font: inherit; font-size: 0.95rem; font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: var(--accent); color: var(--on-accent); }
+.btn-ghost { background: var(--card); color: var(--text); border: 1px solid var(--line); }
+.btn svg { width: 18px; height: 18px; }
+[dir='rtl'] .flip { transform: scaleX(-1); }
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 99px; font-size: 0.8rem;
+  background: rgb(113 133 115 / 0.14); color: var(--accent-text); border: 1px solid rgb(113 133 115 / 0.4);
+}
+section[id] { scroll-margin-top: 84px; }
+.section { padding-block: clamp(64px, 10vw, 112px); }
+.section-head { max-width: 640px; margin-bottom: 40px; }
+.section-head h2 { font-size: clamp(1.7rem, 4vw, 2.5rem); margin-bottom: 12px; }
+.section-head p { color: var(--muted); }
+.accent { color: var(--accent-text); }
+
+/* Scroll reveal: only hides content when JS is running and motion is allowed. */
+.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  html.smooth { scroll-behavior: auto; }
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .btn { transition: none; }
+  .btn:hover { transform: none; }
+}

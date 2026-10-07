@@ -1,0 +1,95 @@
+---
+import '@fontsource/alexandria/400.css';
+import '@fontsource/alexandria/600.css';
+import '@fontsource/alexandria/800.css';
+import '../styles/global.css';
+// Preloading every weight the first screen uses means text renders in its final font on first paint,
+// so nothing jumps when the fonts arrive (this was the homepage's layout shift). Arabic pages need the
+// Latin files too: punctuation, "+" and "AR / EN" come from the Latin subset. ~13 KB each.
+import alexArabic400 from '@fontsource/alexandria/files/alexandria-arabic-400-normal.woff2?url';
+import alexArabic600 from '@fontsource/alexandria/files/alexandria-arabic-600-normal.woff2?url';
+import alexArabic800 from '@fontsource/alexandria/files/alexandria-arabic-800-normal.woff2?url';
+import alexLatin400 from '@fontsource/alexandria/files/alexandria-latin-400-normal.woff2?url';
+import alexLatin600 from '@fontsource/alexandria/files/alexandria-latin-600-normal.woff2?url';
+import alexLatin800 from '@fontsource/alexandria/files/alexandria-latin-800-normal.woff2?url';
+import type { Lang } from '../i18n/ui';
+import { site } from '../site.config';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  /** Same page in the other language, e.g. "/en/" for "/" */
+  alternate?: string;
+  jsonLd?: object;
+  /** Demos have their own fixed look and no theme toggle. */
+  theme?: 'switchable' | 'fixed';
+  themeColor?: string;
+  /** Font files to preload; defaults to the Alexandria files the portfolio uses. */
+  fonts?: string[];
+}
+const { lang, title, description, alternate, jsonLd, theme = 'switchable', themeColor = '#0e0c09' } = Astro.props;
+const fonts = Astro.props.fonts ?? (lang === 'ar'
+  ? [alexArabic400, alexArabic600, alexArabic800, alexLatin400, alexLatin600, alexLatin800]
+  : [alexLatin400, alexLatin600, alexLatin800]);
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const otherLang: Lang = lang === 'ar' ? 'en' : 'ar';
+---
+<!doctype html>
+<html lang={lang} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternate && (
+      <>
+        <link rel="alternate" hreflang={lang} href={canonical} />
+        <link rel="alternate" hreflang={otherLang} href={new URL(alternate, site.url).href} />
+        <link rel="alternate" hreflang="x-default" href={new URL(lang === 'ar' ? Astro.url.pathname : alternate, site.url).href} />
+      </>
+    )}
+    {fonts.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content={themeColor} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'ar' ? 'ar_KW' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+    {theme === 'switchable' && (
+      <script is:inline>
+        (function () {
+          var d = document.documentElement;
+          d.classList.add('js');
+          try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') d.dataset.theme = t; } catch (e) {}
+        })();
+      </script>
+    )}
+    {theme === 'fixed' && <script is:inline>document.documentElement.classList.add('js');</script>}
+  </head>
+  <body>
+    <slot />
+    <script>
+      // Turn on smooth in-page scrolling once the initial #hash jump (if any) is done.
+      const smooth = () => setTimeout(() => document.documentElement.classList.add('smooth'), 100);
+      if (document.readyState === 'complete') smooth(); else addEventListener('load', smooth, { once: true });
+
+      // Reveal sections on scroll (skipped entirely when the user prefers reduced motion).
+      const items = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        items.forEach((el) => el.classList.add('in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+          { rootMargin: '0px 0px -8% 0px' },
+        );
+        items.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>
